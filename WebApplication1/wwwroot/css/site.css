@@ -1,0 +1,40 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.depLink {
+    color: black;
+    text-decoration: none;
+    cursor: help;
+}
+.depLink:hover {
+    color: darkblue;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.block > ul {
+    list-style: none;
+    width: 750px;
+}
+
+.about > ul {
+    list-style: inside;
+    list-style-type: auto;
+    width: 750px;
+}

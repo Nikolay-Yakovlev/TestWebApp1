@@ -1,0 +1,66 @@
+﻿
+@model WebApplication1.Models.MyViewModel
+
+@if (Model.Employee != null)
+{
+   <h6 class="mb-2">Редактирование учётной записи сотрудника</h6>
+}
+else
+{
+   <h6 class="mb-2">Создание учётной записи сотрудника</h6>
+}
+
+    <form asp-action="SaveEmployee" asp-controller="Employee">
+    <div class="form-group col-5">
+        <input type="hidden" asp-for="@Model.Employee.Id" class="form-control" />
+
+        <label asp-for="@Model.Employee.SurName" class="control-label">Фамилия:</label>
+        <input type="text" asp-for="@Model.Employee.SurName" class="form-control" required />
+        @Html.ValidationMessage("SurName")
+
+        <label asp-for="@Model.Employee.FirstName" class="control-label">Имя:</label>
+        <input type="text" asp-for="@Model.Employee.FirstName" class="form-control" required/>
+
+        <label asp-for="@Model.Employee.Patronymic" class="control-label">Отчество:</label>
+        <input type="text" asp-for="@Model.Employee.Patronymic" class="form-control" />
+
+        <label asp-for="@Model.Employee.Position" class="control-label">Должность:</label>
+        <input type="text" asp-for="@Model.Employee.Position" class="form-control" required/>
+
+        <label asp-for="@Model.Employee.DepartmentID" class="control-label">Отдел:</label>
+        <select asp-for="@Model.Employee.DepartmentID" text="-" class="form-select" asp-items="Model.DepartmentList.ConvertAll(d => {
+                return new SelectListItem(){
+                    Text = d.Name, 
+                    Value = d.Id.ToString(),
+                    Selected = Model.Employee != null? Model.Employee.DepartmentID == d.Id : false ,
+                }; 
+            })">
+        </select>
+
+        <div class="m-2">
+            <div>Паспорт</div>
+            <div class="row">
+            <label asp-for="@Model.Employee.DocSeries" class="control-label">серия:</label>
+            <input type="text" asp-for="@Model.Employee.DocSeries" class="form-control" />
+
+            <label asp-for="@Model.Employee.DocNumber" class="control-label">номер:</label>
+            <input type="text" asp-for="@Model.Employee.DocNumber" class="form-control" />
+            </div>
+        </div>
+
+        <label asp-for="@Model.Employee.DateOfBirth" class="control-label">Дата рождения:</label>
+        <input type="date" asp-for="@Model.Employee.DateOfBirth" class="form-control" required/>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Сохранить" class="btn btn-primary mt-3" />
+    </div>
+</form>
+@if (Model.Employee != null)
+{
+        <form asp-action="DeleteEmployee" asp-controller="Employee" asp-route-id="@Model.Employee.Id" asp-route-confirmed="false">
+            <div class="form-group">
+                <input type="submit" value="Удалить" class="btn btn-primary btn-primary mt-3" />
+            </div>
+        </form>
+}

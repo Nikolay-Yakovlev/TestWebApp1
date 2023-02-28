@@ -1,0 +1,44 @@
+﻿@model WebApplication1.Models.MyViewModel
+
+@if (Model.Department != null)
+    {
+    <h6 class="mb-2">Редактирование отдела</h6>
+    }
+    else
+    {
+        <h6 class="mb-2">Создание отдела</h6>
+    }
+
+    <form asp-action="SaveDepartment" asp-controller="Home">
+    <div class="form-group col-5">
+        <input type="hidden" asp-for="@Model.Department.Id" class="form-control" />
+
+            <label asp-for="@Model.Department.ParentDepartmentID" class="control-label">Родительский отдел:</label>
+                <select asp-for="@Model.Department.ParentDepartmentID" text="-" class="form-select" asp-items="Model.DepartmentList.Where(d => 
+                    Model.Department != null? d.Id != Model.Department.Id: true )
+                .Select(d => {
+                return new SelectListItem(){
+                    Text = d.Name, 
+                    Value = d.Id.ToString(),
+                    Selected = Model.Department != null? Model.Department.ParentDepartmentID == d.Id : false ,
+                    }; 
+                })">
+            </select>
+
+            <label asp-for="@Model.Department.Name" class="control-label">Название отдела:</label>
+            <input type="text" asp-for="@Model.Department.Name" class="form-control" required/>
+            
+            <label asp-for="@Model.Department.Code" class="control-label">Код отдела:</label>
+            <input type="text" asp-for="@Model.Department.Code" class="form-control" />
+
+    </div>
+        <div class="form-group">
+        <input type="submit" value="Сохранить" class="btn btn-primary mt-3" />
+    </div>
+</form>
+@if(Model.Department != null)
+{
+    <form asp-action="DeleteDepartment" asp-controller="Home" asp-route-guid="@Model.Department.Id" asp-route-confirmed="false">
+        <input type="submit" value="Удалить" class="btn btn-primary mt-3" />
+    </form>
+}

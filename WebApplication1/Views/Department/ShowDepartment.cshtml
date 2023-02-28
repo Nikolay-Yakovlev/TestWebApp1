@@ -1,0 +1,40 @@
+﻿@model WebApplication1.Models.MyViewModel
+
+<div class="card mb-3 w-50">
+<div class="card-header">
+     <h1 class="card-title">@Model.Department.Name</h1>
+</div>
+<div class="card-body">
+    <h6 class="card-text">Код: @Model.Department.Code</h6>
+    @if (Model.Department.ParentDepartmentID != null)
+    {
+        <h6 class="card-text">Родительский отдел: @Model.DepartmentList.FirstOrDefault(d => d.Id == Model.Department.ParentDepartmentID).Name </h6>
+    }
+</div>
+<div class="card-footer">
+        <a href="../Home/EditDepartment?guid=@Model.Department.Id" class="btn btn-primary card-link mt-2">Редактировать</a>
+    </div>
+</div>
+@if (Model.EmployeeList.Count > 0)
+{
+<h1 class="mt-3">Сотрудники отдела:</h1>
+    @foreach (var e in Model.EmployeeList)
+    {
+    <div class="card mb-3 w-50">
+        <div class="card-header">
+            <h5 class="card-title">@e.SurName @e.FirstName @e.Patronymic</h5>
+            <h6 class="card-subtitle text-muted">@e.Position</h6>
+        </div>
+        <div class="card-body">
+            <h6 class="card-text">Дата рождения: @e.DateOfBirth.ToShortDateString()</h6>
+            <h6 class="card-text">Возраст: @e.GetAge()</h6>
+            <h6 class="card-subtitle text-muted mt-3">Паспортные данные</h6>
+            <h6 class="card-text">Серия: @e.DocSeries</h6>
+            <h6 class="card-text">Номер: @e.DocNumber</h6>
+        </div>
+        <div class="card-footer">
+             <a href="../Employee/GetEmployee/@e.Id" class="btn btn-primary card-link mt-2">Редактировать</a>
+        </div>
+    </div>
+}
+}

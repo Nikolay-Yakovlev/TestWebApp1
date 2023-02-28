@@ -1,0 +1,27 @@
+﻿@model WebApplication1.Models.MyViewModel
+
+@if (Model.DepartmentList.Where(d => d.ParentDepartmentID == Model.Seed).Any())
+{
+    <div class="block">
+    <ul>
+    @foreach (var dep in Model.DepartmentList)
+    {
+        if (dep.ParentDepartmentID == Model.Seed)
+        {
+            <a href="Home/GetDepartment?guid=@dep.Id" class="depLink">@dep.Name</a>
+            var innerDep = new MyViewModel
+                    {
+                        DepartmentList = Model.DepartmentList.Where(d => d.Id != dep.Id).ToList(),
+                        Seed = dep.Id,
+                        EmployeeList = Model.EmployeeList,
+                    };
+            <li>
+                <div>
+                    @Html.Partial("../Department/_DepartmentPartial", innerDep)
+                </div>
+            </li>
+        }
+    }
+    </ul>
+    </div>
+}
